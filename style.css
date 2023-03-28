@@ -1,0 +1,328 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: inline;
+  background: #333;
+}
+
+footer {
+  text-align: center;
+  background-color: #bec4d4;
+}
+
+.parent {
+  display: flex;
+}
+
+.property {
+  min-width: 200px;
+  width: 25%;
+  height: auto;
+  background: #edebd3;
+}
+
+.main {
+  background: #333;
+  margin: auto;
+  margin-top: 3vh;
+}
+
+#area1 {
+  height: 25vh;
+  background-color: #5d5d5d;
+}
+
+#area2 {
+  height: 60vh;
+}
+
+#write {
+  background-color: #ff602b;
+  height: 15vh;
+  display: flex;
+}
+
+#write input {
+  width: 50%;
+  user-select: none;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  padding: 6px;
+  border: none;
+  outline: none;
+  background: #262626;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5),
+    -3px -3px 7px rgba(255, 255, 255, 0.05);
+  margin: 5px;
+  color: rgb(255, 255, 255);
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: default;
+  font-weight: bold;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#write #connect {
+  width: 30%;
+}
+
+#write input:active {
+  color: #1ee04e;
+  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.5),
+    inset -3px -3px 7px rgba(255, 255, 255, 0.05);
+}
+
+
+.typedKey {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40vh;
+  width: auto;
+  margin-bottom: 10px;
+  padding: 10px;
+  color: #414141;
+  font-size: 1rem;
+  font-weight: bold;
+  overflow-wrap: break-word;
+  text-overflow: clip;
+}
+
+.keybord-wrapper {
+  min-width: 675px;
+  max-width: 675px;
+  padding: 5px;
+  border-radius: 10px;
+  background: #bec4d4;
+  margin: 0 auto;
+}
+
+.keybord-wrapper .keys {
+  display: flex;
+}
+
+#first {
+  display: flex;
+  margin-left: 10px;
+}
+
+#second {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 0px;
+  margin-left: 10px;
+}
+
+#Pad {
+  min-width: 180px;
+  max-width: 180px;
+  margin-right: 180px;
+}
+
+#NumPad {
+  margin-left: 10px;
+  min-width: 190px;
+  max-width: 190px;
+}
+
+#panel {
+  margin-left: auto;
+  min-width: 500px;
+  max-width: 675px;
+  padding: 5px;
+  border-radius: 10px;
+  background: #191a1a;
+  margin-bottom: 20px;
+}
+
+#panel label input {
+  display: none;
+}
+
+#panel .preset .label {
+  color: aliceblue;
+  display: flex;
+}
+
+#panel .preset label span {
+  user-select: none;
+  display: inline-flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  height: 30px;
+  width: 50px;
+  padding: 3px;
+  border: none;
+  outline: none;
+  background: #2e3237;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5),
+    -3px -3px 7px rgba(255, 255, 255, 0.05);
+  margin: 2px;
+  color: rgb(184, 184, 184);
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: default;
+  font-weight: bold;
+}
+
+#panel label input:checked+span {
+  color: #ff602b;
+  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.5),
+    inset -3px -3px 7px rgba(255, 255, 255, 0.05);
+}
+
+#panel label input:active+span {
+  color: #00d5ff;
+  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.5),
+    inset -3px -3px 7px rgba(255, 255, 255, 0.05);
+}
+
+#panel .preset #clear{
+  margin-left: 250px;
+  width: 100px;
+}
+
+#Pad .keys {
+  justify-content: center;
+}
+
+#NumPad .keys {
+  justify-content: left;
+}
+
+#NumPad .keys label span {
+  font-size: 0.7rem;
+  margin: 2px;
+}
+
+#Pad .keys label span {
+  font-size: 0.7rem;
+  margin: 2px;
+  width: 50px;
+  font-weight: bold;
+}
+
+#separator {
+  height: 0.5rem;
+}
+
+.keybord-wrapper .keys label input {
+  display: none;
+}
+
+
+.keybord-wrapper .keys label span {
+  user-select: none;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  height: 30px;
+  width: 40px;
+  padding: 3px;
+  border: none;
+  outline: none;
+  background: #2e3237;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5),
+    -3px -3px 7px rgba(255, 255, 255, 0.05);
+  margin: 2px;
+  color: rgb(184, 184, 184);
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: default;
+  font-weight: bold;
+}
+
+.keybord-wrapper .keys label input:checked+span {
+  color: #ff602b;
+  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.5),
+    inset -3px -3px 7px rgba(255, 255, 255, 0.05);
+}
+
+
+.keybord-wrapper .keys label span[value=SPACE] {
+  width: 9rem;
+}
+
+.keybord-wrapper .keys label span[value="Shift"] {
+  width: 5.3rem;
+}
+
+.keybord-wrapper .keys label span[value="Tab"] {
+  width: 3.5rem;
+}
+
+.keybord-wrapper .keys label span[value="Back"] {
+  font-size: 14px;
+}
+
+.keybord-wrapper .keys label span[value="Caps"] {
+  width: 4.5rem;
+}
+
+.keybord-wrapper .keys label span[value="Enter"] {
+  width: 4.5rem;
+}
+
+.keybord-wrapper .keys label span[value="半角/"] {
+  font-size: 12px;
+}
+
+.keybord-wrapper .keys label span[value="GUI"] {
+  font-size: 15px;
+  width: 3rem;
+}
+
+.keybord-wrapper .keys label span[value="Alt/Opt"] {
+  font-size: 12px;
+  width: 4rem;
+}
+
+.keybord-wrapper .keys label span[value="無変換"] {
+  font-size: 12px;
+  width: 4rem;
+}
+
+.keybord-wrapper .keys label span[value="変換"] {
+  font-size: 12px;
+  width: 3rem;
+}
+
+.keybord-wrapper .keys label span[value="ローマ字"] {
+  font-size: 10px;
+  width: 3rem;
+}
+
+.keybord-wrapper .keys label span[value="Menu"] {
+  font-size: 13px;
+  width: 3rem;
+}
+
+.keybord-wrapper .keys label span[value="Ctrl"] {
+  font-size: 15px;
+  width: 3rem;
+}
+
+.keybord-wrapper .keys label span[id="fkeys"] {
+  font-size: 12px;
+  width: 2.71rem;
+}
+
+@media (max-width: 480px) {
+  .keybord-wrapper {
+    padding: 6px;
+  }
+
+  .keybord-wrapper .keys input {
+    width: 30px;
+    margin: 3px;
+  }
+}
