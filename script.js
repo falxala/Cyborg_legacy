@@ -9,7 +9,6 @@ function clearKeys(e) {
   for (item of mod_triggers) {
     item.checked = false;
   }
-  typedKey.textContent = "typed : None";
 }
 
 const send_data = new Uint8Array([0, 0, 0, 0, 0, 0, 0]);
@@ -51,6 +50,7 @@ function typed(e) {
     send_data[count] = checked_data.value;
     count++;
   }
+  /*
   console.log("key1 = " + send_data[0]);
   console.log("key2 = " + send_data[1]);
   console.log("key3 = " + send_data[2]);
@@ -58,14 +58,17 @@ function typed(e) {
   console.log("key5 = " + send_data[4]);
   console.log("key6 = " + send_data[5]);
   console.log("mod = " + send_data[6]);
+  */
 
-  typedKey.textContent = "typed : " + mod + key;
+  create_senddata();
+  document.getElementById("pending").textContent += text;
+  cleanup();
 }
 
-let preset_num = 0;
+let Layer_num = 0;
 let key_num = 0;
-function setPresetNum(e) {
-  preset_num = e.target.value - 1;
+function setLayerNum(e) {
+  Layer_num = e.target.value - 1;
 }
 
 function setKeyNum(e) {
@@ -121,8 +124,26 @@ async function readUntilClosed() {
 }
 let text = "";
 document.getElementById("send").addEventListener('click', async () => {
+
+  create_senddata();
+  var encoder = new TextEncoder();
+  var ab8 = encoder.encode(text);
+  console.log(text);
+
+  const writer = port.writable.getWriter();
+  const data = ab8;
+  console.log(ab8);
+  await writer.write(data);
+  writer.releaseLock();
+});
+
+function toHex(v) {
+  return '0x' + (('00' + v.toString(16).toUpperCase()).substring(v.toString(16).length));
+}
+
+function create_senddata() {
   text = "M_";
-  text += preset_num;
+  text += Layer_num;
   text += "_";
   text += key_num;
   text += "_[";
@@ -132,19 +153,38 @@ document.getElementById("send").addEventListener('click', async () => {
   text += toHex(send_data[3]); text += ",";
   text += toHex(send_data[4]); text += ",";
   text += toHex(send_data[5]); text += ",";
-  text += toHex(send_data[6]); text += "]\r\n";
+  text += toHex(send_data[6]);
+  text += "]\r\n";
+}
 
-  var encoder = new TextEncoder();
-  var ab8 = encoder.encode(text);
+function cleanup() {
+  var text = document.getElementById('pending').value.replace(/\r\n|\r/g, "\n");
+  var lines = text.split('\n');
+  var outArray = new Array();
 
-  const writer = port.writable.getWriter();
-  const data = ab8;
-  console.log(ab8);
-  console.log(text);
-  await writer.write(data);
-  writer.releaseLock();
-});
+  for (var i = 0; i < lines.length; i++) {
+    // 空行は無視する
+    if (lines[i] == '') {
+      continue;
+    }
 
-function toHex(v) {
-  return '0x' + (('00' + v.toString(16).toUpperCase()).substring(v.toString(16).length));
+    outArray.push(lines[i]);
+  }
+  var remove = new Array();
+  for (var i = outArray.length - 1; i >= 0; i--) {
+    for (var j = i - 1; j >= 0; j--) {
+      if (outArray[i].slice(0, 6) == outArray[j].slice(0, 6))
+        remove.push(j)
+    }
+  }
+  new Set(remove).forEach(item => {
+    outArray.splice(item, 1);
+  });
+
+  var newtext = "";
+  outArray.forEach(line => {
+    newtext += line;
+    newtext += "\n";
+  })
+  document.getElementById('pending').textContent = newtext;
 }

@@ -14,39 +14,61 @@
   <div class="parent">
     <div class="property">
       <div id="area1">
-
+        <p class="headline">Devices</p>
+        <div class="devices">
+          <div class="keys">
+            <label><input name="Layerkey1" type="radio" value=1 onclick="setKeyNum(event)" checked /><span>1</span></label>
+            <label><input name="Layerkey1" type="radio" value=4 onclick="setKeyNum(event)" /><span>4</span></label>
+          </div>
+          <div class="keys">
+            <label><input name="Layerkey1" type="radio" value=2 onclick="setKeyNum(event)" /><span>2</span></label>
+            <label><input name="Layerkey1" type="radio" value=5 onclick="setKeyNum(event)" /><span>5</span></label>
+          </div>
+          <div class="keys">
+            <label><input name="Layerkey1" type="radio" value=3 onclick="setKeyNum(event)" /><span>3</span></label>
+            <label><input name="Layerkey1" type="radio" value=6 onclick="setKeyNum(event)" /><span>6</span></label>
+          </div>
+          <div class="keys">
+            <label><input name="Layerkey1" type="radio" value=7 onclick="setKeyNum(event)" /><span>Lrot</span></label>
+            <label><input name="Layerkey1" type="radio" value=8 onclick="setKeyNum(event)" /><span>Rrot</span></label>
+          </div>
+        </div>
       </div>
       <div id="area2">
-        <div class="typedKey">typed :</div>
+        <p class="headline">Pending</p>
+        <textarea id="pending" readonly></textarea>
       </div>
       <div id="write">
-        <input id="connect" type="button" value="接続" onclick="openSerial(event)" />
-        <input id="send" type="button" value="書き込み" onclick="" />
+        <input id="connect" type="button" value="Connect" onclick="openSerial(event)" />
+        <input id="send" type="button" value="Write" onclick="" />
       </div>
     </div>
     <div class="main">
       <div>
         <div id="panel">
-          <div class="preset">
-            <label class="label">Preset</label>
-            <label><input type="radio" name="preset" value="1" checked onclick="setPresetNum(event)" /><span id="">1</span></label>
-            <label><input type="radio" name="preset" value="2" onclick="setPresetNum(event)" /><span id="">2</span></label>
-            <label><input type="radio" name="preset" value="3" onclick="setPresetNum(event)" /><span id="">3</span></label>
-            <label><input type="radio" name="preset" value="4" onclick="setPresetNum(event)" /><span id="">4</span></label>
-            <label><input type="radio" name="preset" value="5" onclick="setPresetNum(event)" /><span id="">5</span></label>
+          <div class="Layer">
+            <label class="label">Layer</label>
+            <label><input type="radio" name="Layer" value="1" checked onclick="setLayerNum(event)" /><span id="">1</span></label>
+            <label><input type="radio" name="Layer" value="2" onclick="setLayerNum(event)" /><span id="">2</span></label>
+            <label><input type="radio" name="Layer" value="3" onclick="setLayerNum(event)" /><span id="">3</span></label>
+            <label><input type="radio" name="Layer" value="4" onclick="setLayerNum(event)" /><span id="">4</span></label>
+            <label><input type="radio" name="Layer" value="5" onclick="setLayerNum(event)" /><span id="">5</span></label>
+            <label><input type="radio" name="Layer" value="6" onclick="setLayerNum(event)" /><span id="">6</span></label>
             <label><input type="button" value="Clear" onclick="clearKeys(event)" /><span id="clear">ClearKeys</span></label>
           </div>
-          <div class="preset">
+          <!--
+          <div class="Layer">
             <label class="label">Keys</label>
-            <label><input type="radio" name="preaetkey" value="1" checked onclick="setKeyNum(event)" /><span id="">1</span></label>
-            <label><input type="radio" name="preaetkey" value="2" onclick="setKeyNum(event)" /><span id="">2</span></label>
-            <label><input type="radio" name="preaetkey" value="3" onclick="setKeyNum(event)" /><span id="">3</span></label>
-            <label><input type="radio" name="preaetkey" value="4" onclick="setKeyNum(event)" /><span id="">4</span></label>
-            <label><input type="radio" name="preaetkey" value="5" onclick="setKeyNum(event)" /><span id="">5</span></label>
-            <label><input type="radio" name="preaetkey" value="6" onclick="setKeyNum(event)" /><span id="">6</span></label>
-            <label><input type="radio" name="preaetkey" value="7" onclick="setKeyNum(event)" /><span id="">CCW</span></label>
-            <label><input type="radio" name="preaetkey" value="8" onclick="setKeyNum(event)" /><span id="">CW</span></label>
+            <label><input type="radio" name="Layerkey" value="1" checked onclick="setKeyNum(event)" /><span id="">1</span></label>
+            <label><input type="radio" name="Layerkey" value="2" onclick="setKeyNum(event)" /><span id="">2</span></label>
+            <label><input type="radio" name="Layerkey" value="3" onclick="setKeyNum(event)" /><span id="">3</span></label>
+            <label><input type="radio" name="Layerkey" value="4" onclick="setKeyNum(event)" /><span id="">4</span></label>
+            <label><input type="radio" name="Layerkey" value="5" onclick="setKeyNum(event)" /><span id="">5</span></label>
+            <label><input type="radio" name="Layerkey" value="6" onclick="setKeyNum(event)" /><span id="">6</span></label>
+            <label><input type="radio" name="Layerkey" value="7" onclick="setKeyNum(event)" /><span id="">CW</span></label>
+            <label><input type="radio" name="Layerkey" value="8" onclick="setKeyNum(event)" /><span id="">CCW</span></label>
           </div>
+          -->
         </div>
         <div id="first">
           <div class="keybord-wrapper">
@@ -219,7 +241,7 @@
   </div>
 </body>
 <footer>
-  <p>© 2023 falxla CyborgPadWriter_V0.1</p>
+  <p>© 2023 falxla CyborgPadWriter_V0.2</p>
 </footer>
 
 </html>
