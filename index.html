@@ -40,7 +40,7 @@
       </div>
       <div id="write">
         <input id="connect" type="button" value="Connect" onclick="openSerial(event)" />
-        <input id="send" type="button" value="Write" onclick="" />
+        <input disabled id="send" type="button" value="Perpetuation" onclick="" />
       </div>
     </div>
     <div class="main">
@@ -54,7 +54,7 @@
             <label><input type="radio" name="Layer" value="4" onclick="setLayerNum(event)" /><span id="">4</span></label>
             <label><input type="radio" name="Layer" value="5" onclick="setLayerNum(event)" /><span id="">5</span></label>
             <label><input type="radio" name="Layer" value="6" onclick="setLayerNum(event)" /><span id="">6</span></label>
-            <label><input type="button" value="Clear" onclick="clearKeys(event)" /><span id="clear">ClearKeys</span></label>
+            <label id="clear"><input type="button" value="Clear" onclick="clearKeys(event)" /><span>ClearKeys</span></label>
           </div>
           <!--
           <div class="Layer">
@@ -241,7 +241,7 @@
   </div>
 </body>
 <footer>
-  <p>© 2023 falxla CyborgPadWriter_V0.2</p>
+  <p>© 2023 falxla CyborgPadWriter_V0.3</p>
 </footer>
 
 </html>

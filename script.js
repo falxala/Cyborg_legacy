@@ -61,7 +61,7 @@ function typed(e) {
   */
 
   create_senddata();
-  document.getElementById("pending").textContent += text;
+  document.getElementById("pending").textContent += textdata;
   cleanup();
 }
 
@@ -104,6 +104,11 @@ async function readUntilClosed() {
   while (port.readable && keepReading) {
     reader = port.readable.getReader();
     try {
+      const input = document.getElementById('send');
+      input.disabled = false;
+      const input2 = document.getElementById('connect');
+      input2.disabled = true;
+
       while (true) {
         const { value, done } = await reader.read();
         if (done) {
@@ -111,7 +116,7 @@ async function readUntilClosed() {
           break;
         }
         // value is a Uint8Array.
-        //console.log(value);
+        console.log(new TextDecoder().decode(value));
       }
     } catch (error) {
       // Handle error...
@@ -122,39 +127,46 @@ async function readUntilClosed() {
     await port.close();
   }
 }
-let text = "";
+
+const wait = async (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
 document.getElementById("send").addEventListener('click', async () => {
-
-  create_senddata();
+  var pending = document.getElementById('pending').textContent.replace(/\r\n|\r/g, "\n");
+  var queue = pending.split('\n');
   var encoder = new TextEncoder();
-  var ab8 = encoder.encode(text);
-  console.log(text);
-
-  const writer = port.writable.getWriter();
-  const data = ab8;
-  console.log(ab8);
-  await writer.write(data);
-  writer.releaseLock();
+  for (var i = 0; i < queue.length; i++) {
+    if (queue[i] == '') {
+      continue;
+    }
+    const writer = port.writable.getWriter();
+    var ab8 = encoder.encode(queue[i] + "\r\n");
+    const data = ab8;
+    writer.write(data);
+    writer.releaseLock();
+    await wait(50);
+  }
+  document.getElementById('pending').textContent = "";
 });
 
 function toHex(v) {
   return '0x' + (('00' + v.toString(16).toUpperCase()).substring(v.toString(16).length));
 }
 
+let textdata = "";
 function create_senddata() {
-  text = "M_";
-  text += Layer_num;
-  text += "_";
-  text += key_num;
-  text += "_[";
-  text += toHex(send_data[0]); text += ",";
-  text += toHex(send_data[1]); text += ",";
-  text += toHex(send_data[2]); text += ",";
-  text += toHex(send_data[3]); text += ",";
-  text += toHex(send_data[4]); text += ",";
-  text += toHex(send_data[5]); text += ",";
-  text += toHex(send_data[6]);
-  text += "]\r\n";
+  textdata = "M_";
+  textdata += Layer_num;
+  textdata += "_";
+  textdata += key_num;
+  textdata += "_[";
+  textdata += toHex(send_data[0]); textdata += ",";
+  textdata += toHex(send_data[1]); textdata += ",";
+  textdata += toHex(send_data[2]); textdata += ",";
+  textdata += toHex(send_data[3]); textdata += ",";
+  textdata += toHex(send_data[4]); textdata += ",";
+  textdata += toHex(send_data[5]); textdata += ",";
+  textdata += toHex(send_data[6]);
+  textdata += "]\r\n";
 }
 
 function cleanup() {

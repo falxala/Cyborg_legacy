@@ -12,6 +12,7 @@ body {
 footer {
   text-align: center;
   background-color: #bec4d4;
+  width: auto;
 }
 
 #pending {
@@ -21,6 +22,7 @@ footer {
   color: #0eefff;
   overflow-wrap: normal;
   padding-left: 10px;
+  resize: none;
 }
 
 .parent {
@@ -31,7 +33,7 @@ footer {
   min-width: 350px;
   width: 20vw;
   height: auto;
-  background: #edebd3;
+  background: #656353;
 }
 
 .devices {
@@ -61,6 +63,10 @@ footer {
   margin-top: 20px;
   height: 10vh;
   vertical-align: bottom;
+}
+
+#write input:disabled {
+  color: #5d5d5d;
 }
 
 #write input {
@@ -135,9 +141,13 @@ footer {
 }
 
 #write input:active {
-  color: #1ee04e;
+  color: #46da19;
   box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.5),
     inset -3px -3px 7px rgba(255, 255, 255, 0.05);
+}
+
+#write input:disabled {
+  color: #5d5d5d;
 }
 
 
@@ -212,13 +222,13 @@ footer {
     inset -3px -3px 7px rgba(255, 255, 255, 0.05);
 }
 
-#panel label input:active+span {
+#panel #clear input:active+span {
   color: #00d5ff;
   box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.5),
     inset -3px -3px 7px rgba(255, 255, 255, 0.05);
 }
 
-#panel .Layer #clear {
+#panel .Layer #clear span {
   margin-left: 200px;
   width: 100px;
 }
