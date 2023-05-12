@@ -69,10 +69,12 @@ let Layer_num = 0;
 let key_num = 0;
 function setLayerNum(e) {
   Layer_num = e.target.value - 1;
+  clearKeys();
 }
 
 function setKeyNum(e) {
   key_num = e.target.value - 1;
+  clearKeys();
 }
 
 
