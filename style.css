@@ -180,21 +180,50 @@ footer {
 
 #second {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   margin-top: 0px;
   margin-left: 10px;
 }
 
 #Pad {
-  min-width: 180px;
+  min-width: 10px;
   max-width: 180px;
-  margin-right: 180px;
+  margin-right: 10px;
+  margin-left: 0px;
 }
 
 #NumPad {
   margin-left: 10px;
-  min-width: 190px;
+  margin-right: 10px;
+  min-width: 10px;
   max-width: 190px;
+}
+
+#Mouse {
+  margin-right: 10px;
+  margin-left: 10px;
+  min-width: 10px;
+  max-width: 190px;
+}
+
+#Mouse .keys {
+  justify-content: center;
+}
+
+#Mouse .keys label span.mousebutton {
+  height: 100px;
+}
+
+#Mouse .keys label span.middlebutton {
+  margin-top: -50px;
+}
+
+#Mouse .keys label span.sidebutton {
+  width: auto;
+}
+
+#Mouse #scroll{
+  height: 0;
 }
 
 #panel {

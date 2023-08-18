@@ -3,12 +3,20 @@ const typedKey = document.querySelector(".typedKey");
 function clearKeys(e) {
   let key_triggers = document.querySelectorAll("input[name=trigger]:checked");
   let mod_triggers = document.querySelectorAll("input[name=modtrigger]:checked");
+  let count = 0;
   for (item of key_triggers) {
+    if (item.checked == true)
+      count++;
     item.checked = false;
   }
   for (item of mod_triggers) {
+    if (item.checked == true)
+      count++;
     item.checked = false;
   }
+
+  if (e == true && count != 0)
+    delete_last_line();
 }
 
 const send_data = new Uint8Array([0, 0, 0, 0, 0, 0, 0]);
@@ -22,7 +30,6 @@ function typed(e) {
   send_data[6] = 0;
   let key_triggers = document.querySelectorAll("input[name=trigger]:checked");
   let mod_triggers = document.querySelectorAll("input[name=modtrigger]:checked");
-  let key = "None"
   let mod = "None"
   let mod_value = 0;
   for (let checked_data of mod_triggers) {
@@ -194,6 +201,26 @@ function cleanup() {
   new Set(remove).forEach(item => {
     outArray.splice(item, 1);
   });
+
+  var newtext = "";
+  outArray.forEach(line => {
+    newtext += line;
+    newtext += "\n";
+  })
+  document.getElementById('pending').textContent = newtext;
+}
+
+function delete_last_line() {
+  var text = document.getElementById('pending').value.replace(/\r\n|\r/g, "\n");
+  var lines = text.split('\n');
+  var outArray = new Array();
+
+  for (var i = 0; i < (lines.length - 2); i++) {
+    if (lines[i] == '') {
+      continue;
+    }
+    outArray.push(lines[i]);
+  }
 
   var newtext = "";
   outArray.forEach(line => {
