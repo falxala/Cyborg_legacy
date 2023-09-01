@@ -3,6 +3,7 @@ const typedKey = document.querySelector(".typedKey");
 function clearKeys(e) {
   let key_triggers = document.querySelectorAll("input[name=trigger]:checked");
   let mod_triggers = document.querySelectorAll("input[name=modtrigger]:checked");
+  let con_triggers = document.querySelectorAll("input[name=contrigger]:checked");
   let count = 0;
   for (item of key_triggers) {
     if (item.checked == true)
@@ -10,6 +11,12 @@ function clearKeys(e) {
     item.checked = false;
   }
   for (item of mod_triggers) {
+    if (item.checked == true)
+      count++;
+    item.checked = false;
+  }
+
+  for (item of con_triggers) {
     if (item.checked == true)
       count++;
     item.checked = false;
@@ -30,6 +37,7 @@ function typed(e) {
   send_data[6] = 0;
   let key_triggers = document.querySelectorAll("input[name=trigger]:checked");
   let mod_triggers = document.querySelectorAll("input[name=modtrigger]:checked");
+  let con_triggers = document.querySelectorAll("input[name=contrigger]:checked");
   let mod = "None"
   let mod_value = 0;
   for (let checked_data of mod_triggers) {
@@ -52,20 +60,20 @@ function typed(e) {
 
   let count = 0;
   for (let checked_data of key_triggers) {
-    if (count > 6)
+    if (count > 5)
       break;
     send_data[count] = checked_data.value;
     count++;
   }
-  /*
-  console.log("key1 = " + send_data[0]);
-  console.log("key2 = " + send_data[1]);
-  console.log("key3 = " + send_data[2]);
-  console.log("key4 = " + send_data[3]);
-  console.log("key5 = " + send_data[4]);
-  console.log("key6 = " + send_data[5]);
-  console.log("mod = " + send_data[6]);
-  */
+
+  count = 0;
+  for (let checked_data of con_triggers) {
+    if (count > 0)
+      break;
+    send_data[0] = 255;
+    send_data[1] = checked_data.value;
+    count++;
+  }
 
   create_senddata();
   document.getElementById("pending").textContent += textdata;
@@ -75,7 +83,7 @@ function typed(e) {
 let Layer_num = 0;
 let key_num = 0;
 function setLayerNum(e) {
-  Layer_num = e.target.value - 1;
+  Layer_num = e.target.value;
   clearKeys();
 }
 
@@ -108,6 +116,8 @@ async function SerialBegin() {
 
 let keepReading = true;
 let reader;
+let decoder = new TextDecoder()
+let buffer = "";
 
 async function readUntilClosed() {
   while (port.readable && keepReading) {
@@ -125,9 +135,22 @@ async function readUntilClosed() {
           break;
         }
         // value is a Uint8Array.
-        console.log(new TextDecoder().decode(value));
+        buffer += decoder.decode(value);
+        let i = 0;
+        for (let c of buffer) {
+          if (c == '\n') {
+            let line = buffer.slice(0, i).replace('\n', "");
+            if (line != "") {
+              readfunction(line);
+            }
+            buffer = buffer.slice(i);
+            i = 0;
+          }
+          i++;
+        }
       }
     } catch (error) {
+      console.log(error);
       // Handle error...
     } finally {
       // Allow the serial port to be closed later.
@@ -135,6 +158,58 @@ async function readUntilClosed() {
     }
     await port.close();
   }
+}
+
+function readfunction(messeage) {
+
+  switch (parseInt(messeage.replace('lyr:', ''))) {
+    case 0:
+      document.getElementById("layer0").checked = true;
+      break;
+    case 1:
+      document.getElementById("layer1").checked = true;
+      break;
+    case 2:
+      document.getElementById("layer2").checked = true;
+      break;
+    case 3:
+      document.getElementById("layer3").checked = true;
+      break;
+    case 4:
+      document.getElementById("layer4").checked = true;
+      break;
+    case 5:
+      document.getElementById("layer5").checked = true;
+      break;
+  }
+
+  switch (parseInt(messeage.replace('kys:', ''))) {
+    case 1:
+      document.getElementById("key1").checked = true;
+      break;
+    case 2:
+      document.getElementById("key2").checked = true;
+      break;
+    case 4:
+      document.getElementById("key3").checked = true;
+      break;
+    case 8:
+      document.getElementById("key4").checked = true;
+      break;
+    case 16:
+      document.getElementById("key5").checked = true;
+      break;
+    case 32:
+      document.getElementById("key6").checked = true;
+      break;
+  }
+
+  if (messeage.toString().indexOf("enc:-") !== -1)
+    document.getElementById("keyL").checked = true;
+  if (messeage.toString().indexOf("enc:+") !== -1)
+    document.getElementById("keyR").checked = true;
+
+  console.log(messeage);
 }
 
 const wait = async (ms) => new Promise(resolve => setTimeout(resolve, ms));
