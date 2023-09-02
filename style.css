@@ -45,6 +45,12 @@ footer {
   margin-left: auto;
   margin-right: auto;
   padding-top: 25px;
+  
+}
+
+#download{
+  height: 30px;
+  background-color: #3db6b0;
 }
 
 #area1 {

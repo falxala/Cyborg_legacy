@@ -165,50 +165,69 @@ function readfunction(messeage) {
   switch (parseInt(messeage.replace('lyr:', ''))) {
     case 0:
       document.getElementById("layer0").checked = true;
+      Layer_num = 0;
       break;
     case 1:
       document.getElementById("layer1").checked = true;
+      Layer_num = 1;
       break;
     case 2:
       document.getElementById("layer2").checked = true;
+      Layer_num = 2;
       break;
     case 3:
       document.getElementById("layer3").checked = true;
+      Layer_num = 3;
       break;
     case 4:
       document.getElementById("layer4").checked = true;
+      Layer_num = 4;
       break;
     case 5:
       document.getElementById("layer5").checked = true;
+      Layer_num = 5;
       break;
   }
 
   switch (parseInt(messeage.replace('kys:', ''))) {
     case 1:
       document.getElementById("key1").checked = true;
+      key_num = 0;
       break;
     case 2:
       document.getElementById("key2").checked = true;
+      key_num = 1;
       break;
     case 4:
       document.getElementById("key3").checked = true;
+      key_num = 2;
       break;
     case 8:
       document.getElementById("key4").checked = true;
+      key_num = 3;
       break;
     case 16:
       document.getElementById("key5").checked = true;
+      key_num = 4;
       break;
     case 32:
       document.getElementById("key6").checked = true;
+      key_num = 5;
       break;
   }
 
-  if (messeage.toString().indexOf("enc:-") !== -1)
-    document.getElementById("keyL").checked = true;
-  if (messeage.toString().indexOf("enc:+") !== -1)
+  if (messeage.toString().indexOf("enc:+") !== -1) {
     document.getElementById("keyR").checked = true;
+    key_num = 6;
+  }
 
+  if (messeage.toString().indexOf("enc:-") !== -1) {
+    document.getElementById("keyL").checked = true;
+    key_num = 7;
+  }
+
+
+  clearKeys();
   console.log(messeage);
 }
 
@@ -304,3 +323,4 @@ function delete_last_line() {
   })
   document.getElementById('pending').textContent = newtext;
 }
+
