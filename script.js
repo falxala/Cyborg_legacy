@@ -3,12 +3,27 @@ const typedKey = document.querySelector(".typedKey");
 function clearKeys(e) {
   let key_triggers = document.querySelectorAll("input[name=trigger]:checked");
   let mod_triggers = document.querySelectorAll("input[name=modtrigger]:checked");
+  let con_triggers = document.querySelectorAll("input[name=contrigger]:checked");
+  let count = 0;
   for (item of key_triggers) {
+    if (item.checked == true)
+      count++;
     item.checked = false;
   }
   for (item of mod_triggers) {
+    if (item.checked == true)
+      count++;
     item.checked = false;
   }
+
+  for (item of con_triggers) {
+    if (item.checked == true)
+      count++;
+    item.checked = false;
+  }
+
+  if (e == true && count != 0)
+    delete_last_line();
 }
 
 const send_data = new Uint8Array([0, 0, 0, 0, 0, 0, 0]);
@@ -22,7 +37,7 @@ function typed(e) {
   send_data[6] = 0;
   let key_triggers = document.querySelectorAll("input[name=trigger]:checked");
   let mod_triggers = document.querySelectorAll("input[name=modtrigger]:checked");
-  let key = "None"
+  let con_triggers = document.querySelectorAll("input[name=contrigger]:checked");
   let mod = "None"
   let mod_value = 0;
   for (let checked_data of mod_triggers) {
@@ -45,20 +60,20 @@ function typed(e) {
 
   let count = 0;
   for (let checked_data of key_triggers) {
-    if (count > 6)
+    if (count > 5)
       break;
     send_data[count] = checked_data.value;
     count++;
   }
-  /*
-  console.log("key1 = " + send_data[0]);
-  console.log("key2 = " + send_data[1]);
-  console.log("key3 = " + send_data[2]);
-  console.log("key4 = " + send_data[3]);
-  console.log("key5 = " + send_data[4]);
-  console.log("key6 = " + send_data[5]);
-  console.log("mod = " + send_data[6]);
-  */
+
+  count = 0;
+  for (let checked_data of con_triggers) {
+    if (count > 0)
+      break;
+    send_data[0] = 255;
+    send_data[1] = checked_data.value;
+    count++;
+  }
 
   create_senddata();
   document.getElementById("pending").textContent += textdata;
@@ -68,7 +83,7 @@ function typed(e) {
 let Layer_num = 0;
 let key_num = 0;
 function setLayerNum(e) {
-  Layer_num = e.target.value - 1;
+  Layer_num = e.target.value;
   clearKeys();
 }
 
@@ -101,6 +116,8 @@ async function SerialBegin() {
 
 let keepReading = true;
 let reader;
+let decoder = new TextDecoder()
+let buffer = "";
 
 async function readUntilClosed() {
   while (port.readable && keepReading) {
@@ -118,9 +135,22 @@ async function readUntilClosed() {
           break;
         }
         // value is a Uint8Array.
-        console.log(new TextDecoder().decode(value));
+        buffer += decoder.decode(value);
+        let i = 0;
+        for (let c of buffer) {
+          if (c == '\n') {
+            let line = buffer.slice(0, i).replace('\n', "");
+            if (line != "") {
+              readfunction(line);
+            }
+            buffer = buffer.slice(i);
+            i = 0;
+          }
+          i++;
+        }
       }
     } catch (error) {
+      console.log(error);
       // Handle error...
     } finally {
       // Allow the serial port to be closed later.
@@ -128,6 +158,77 @@ async function readUntilClosed() {
     }
     await port.close();
   }
+}
+
+function readfunction(messeage) {
+
+  switch (parseInt(messeage.replace('lyr:', ''))) {
+    case 0:
+      document.getElementById("layer0").checked = true;
+      Layer_num = 0;
+      break;
+    case 1:
+      document.getElementById("layer1").checked = true;
+      Layer_num = 1;
+      break;
+    case 2:
+      document.getElementById("layer2").checked = true;
+      Layer_num = 2;
+      break;
+    case 3:
+      document.getElementById("layer3").checked = true;
+      Layer_num = 3;
+      break;
+    case 4:
+      document.getElementById("layer4").checked = true;
+      Layer_num = 4;
+      break;
+    case 5:
+      document.getElementById("layer5").checked = true;
+      Layer_num = 5;
+      break;
+  }
+
+  switch (parseInt(messeage.replace('kys:', ''))) {
+    case 1:
+      document.getElementById("key1").checked = true;
+      key_num = 0;
+      break;
+    case 2:
+      document.getElementById("key2").checked = true;
+      key_num = 1;
+      break;
+    case 4:
+      document.getElementById("key3").checked = true;
+      key_num = 2;
+      break;
+    case 8:
+      document.getElementById("key4").checked = true;
+      key_num = 3;
+      break;
+    case 16:
+      document.getElementById("key5").checked = true;
+      key_num = 4;
+      break;
+    case 32:
+      document.getElementById("key6").checked = true;
+      key_num = 5;
+      break;
+  }
+
+  if (messeage.toString().indexOf("enc:+") !== -1) {
+    document.getElementById("keyR").checked = true;
+    key_num = 6;
+  }
+
+  if (messeage.toString().indexOf("enc:-") !== -1) {
+    document.getElementById("keyL").checked = true;
+    key_num = 7;
+  }
+
+
+  clearKeys();
+  console.log(messeage);
 }
 
 const wait = async (ms) => new Promise(resolve => setTimeout(resolve, ms));
@@ -202,3 +303,24 @@ function cleanup() {
   })
   document.getElementById('pending').textContent = newtext;
 }
+
+function delete_last_line() {
+  var text = document.getElementById('pending').value.replace(/\r\n|\r/g, "\n");
+  var lines = text.split('\n');
+  var outArray = new Array();
+
+  for (var i = 0; i < (lines.length - 2); i++) {
+    if (lines[i] == '') {
+      continue;
+    }
+    outArray.push(lines[i]);
+  }
+
+  var newtext = "";
+  outArray.forEach(line => {
+    newtext += line;
+    newtext += "\n";
+  })
+  document.getElementById('pending').textContent = newtext;
+}
+

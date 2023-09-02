@@ -17,25 +17,27 @@
         <p class="headline">Devices</p>
         <div class="devices">
           <div class="keys">
-            <label><input name="Layerkey1" type="radio" value=1 onclick="setKeyNum(event)" checked /><span>1</span></label>
-            <label><input name="Layerkey1" type="radio" value=4 onclick="setKeyNum(event)" /><span>4</span></label>
+            <label><input id="key1" name="Layerkey1" type="radio" value=1 onclick="setKeyNum(event)" checked /><span>1</span></label>
+            <label><input id="key4" name="Layerkey1" type="radio" value=4 onclick="setKeyNum(event)" /><span>4</span></label>
           </div>
           <div class="keys">
-            <label><input name="Layerkey1" type="radio" value=2 onclick="setKeyNum(event)" /><span>2</span></label>
-            <label><input name="Layerkey1" type="radio" value=5 onclick="setKeyNum(event)" /><span>5</span></label>
+            <label><input id="key2" name="Layerkey1" type="radio" value=2 onclick="setKeyNum(event)" /><span>2</span></label>
+            <label><input id="key5" name="Layerkey1" type="radio" value=5 onclick="setKeyNum(event)" /><span>5</span></label>
           </div>
           <div class="keys">
-            <label><input name="Layerkey1" type="radio" value=3 onclick="setKeyNum(event)" /><span>3</span></label>
-            <label><input name="Layerkey1" type="radio" value=6 onclick="setKeyNum(event)" /><span>6</span></label>
+            <label><input id="key3" name="Layerkey1" type="radio" value=3 onclick="setKeyNum(event)" /><span>3</span></label>
+            <label><input id="key6" name="Layerkey1" type="radio" value=6 onclick="setKeyNum(event)" /><span>6</span></label>
           </div>
           <div class="keys">
-            <label><input name="Layerkey1" type="radio" value=8 onclick="setKeyNum(event)" /><span>Lrot</span></label>
-            <label><input name="Layerkey1" type="radio" value=7 onclick="setKeyNum(event)" /><span>Rrot</span></label>
+            <label><input id="keyL" name="Layerkey1" type="radio" value=8 onclick="setKeyNum(event)" /><span>Lrot</span></label>
+            <label><input id="keyR" name="Layerkey1" type="radio" value=7 onclick="setKeyNum(event)" /><span>Rrot</span></label>
           </div>
         </div>
       </div>
       <div id="area2">
-        <p class="headline">Pending</p>
+        <p class="headline">Pending
+          <button onclick="delete_last_line()">delete line</button>
+        </p>
         <textarea id="pending" readonly></textarea>
       </div>
       <div id="write">
@@ -44,31 +46,19 @@
       </div>
     </div>
     <div class="main">
+      <a href="" id="download" download>DOWNLOAD OFFLINE TOOL</a>
       <div>
         <div id="panel">
           <div class="Layer">
             <label class="label">Layer</label>
-            <label><input type="radio" name="Layer" value="1" checked onclick="setLayerNum(event)" /><span id="">1</span></label>
-            <label><input type="radio" name="Layer" value="2" onclick="setLayerNum(event)" /><span id="">2</span></label>
-            <label><input type="radio" name="Layer" value="3" onclick="setLayerNum(event)" /><span id="">3</span></label>
-            <label><input type="radio" name="Layer" value="4" onclick="setLayerNum(event)" /><span id="">4</span></label>
-            <label><input type="radio" name="Layer" value="5" onclick="setLayerNum(event)" /><span id="">5</span></label>
-            <label><input type="radio" name="Layer" value="6" onclick="setLayerNum(event)" /><span id="">6</span></label>
-            <label id="clear"><input type="button" value="Clear" onclick="clearKeys(event)" /><span>ClearKeys</span></label>
+            <label><input type="radio" name="Layer" value=0 checked onclick="setLayerNum(event)" id="layer0"><span>0</span></label>
+            <label><input type="radio" name="Layer" value=1 onclick="setLayerNum(event)" id="layer1" /><span>1</span></label>
+            <label><input type="radio" name="Layer" value=2 onclick="setLayerNum(event)" id="layer2" /><span>2</span></label>
+            <label><input type="radio" name="Layer" value=3 onclick="setLayerNum(event)" id="layer3" /><span>3</span></label>
+            <label><input type="radio" name="Layer" value=4 onclick="setLayerNum(event)" id="layer4" /><span>4</span></label>
+            <label><input type="radio" name="Layer" value=5 onclick="setLayerNum(event)" id="layer5" /><span>5</span></label>
+            <label id="clear"><input type="button" value="Clear" onclick="clearKeys(true)" /><span>ClearKeys</span></label>
           </div>
-          <!--
-          <div class="Layer">
-            <label class="label">Keys</label>
-            <label><input type="radio" name="Layerkey" value="1" checked onclick="setKeyNum(event)" /><span id="">1</span></label>
-            <label><input type="radio" name="Layerkey" value="2" onclick="setKeyNum(event)" /><span id="">2</span></label>
-            <label><input type="radio" name="Layerkey" value="3" onclick="setKeyNum(event)" /><span id="">3</span></label>
-            <label><input type="radio" name="Layerkey" value="4" onclick="setKeyNum(event)" /><span id="">4</span></label>
-            <label><input type="radio" name="Layerkey" value="5" onclick="setKeyNum(event)" /><span id="">5</span></label>
-            <label><input type="radio" name="Layerkey" value="6" onclick="setKeyNum(event)" /><span id="">6</span></label>
-            <label><input type="radio" name="Layerkey" value="7" onclick="setKeyNum(event)" /><span id="">CW</span></label>
-            <label><input type="radio" name="Layerkey" value="8" onclick="setKeyNum(event)" /><span id="">CCW</span></label>
-          </div>
-          -->
         </div>
         <div id="first">
           <div class="keybord-wrapper">
@@ -172,18 +162,25 @@
         <div id="second">
           <div class="keybord-wrapper" id="Pad">
             <div class="keys">
-              <label><input name="trigger" type="checkbox" value=226 onclick="typed(event)" /><span>Mute</span></label>
-              <label><input name="trigger" type="checkbox" value=233 onclick="typed(event)" /><span>Vol.Up</span></label>
-              <label><input name="trigger" type="checkbox" value=234 onclick="typed(event)" /><span>Vol.Dn</span></label>
+              <label><input name="contrigger" type="checkbox" value=226 onclick="typed(event)" /><span>Mute</span></label>
+              <label><input name="contrigger" type="checkbox" value=233 onclick="typed(event)" /><span>Vol.Up</span></label>
+              <label><input name="contrigger" type="checkbox" value=234 onclick="typed(event)" /><span>Vol.Dn</span></label>
             </div>
             <div class="keys">
-              <label><input name="trigger" type="checkbox" value=182 onclick="typed(event)" /><span>Prev</span></label>
-              <label><input name="trigger" type="checkbox" value=205 onclick="typed(event)" /><span>Play</span></label>
-              <label><input name="trigger" type="checkbox" value=181 onclick="typed(event)" /><span>Next</span></label>
+              <label><input name="contrigger" type="checkbox" value=182 onclick="typed(event)" /><span>Prev</span></label>
+              <label><input name="contrigger" type="checkbox" value=205 onclick="typed(event)" /><span>Play</span></label>
+              <label><input name="contrigger" type="checkbox" value=181 onclick="typed(event)" /><span>Next</span></label>
             </div>
             <div id="separator">
               <br>
             </div>
+            <div class="keys">
+              <label><input name="contrigger" type="checkbox" value=112 onclick="typed(event)" /><span>Blig.Dn</span></label>
+              <label><input name="contrigger" type="checkbox" value=111 onclick="typed(event)" /><span>Blig.Up</span></label>
+            </div>
+          </div>
+
+          <div class="keybord-wrapper" id="Pad">
             <div class="keys">
               <label><input name="trigger" type="checkbox" value=73 onclick="typed(event)" /><span>Insert</span></label>
               <label><input name="trigger" type="checkbox" value=74 onclick="typed(event)" /><span>Home</span></label>
@@ -198,14 +195,41 @@
               <br>
             </div>
             <div class="keys">
-              <label><input name="trigger" type="checkbox" value=82 onclick="typed(event)" /><span>⬆︎</span></label>
+              <label><input name="trigger" type="checkbox" value=82 onclick="typed(event)" /><span>↑</span></label>
             </div>
             <div class="keys">
-              <label><input name="trigger" type="checkbox" value=80 onclick="typed(event)" /><span>⬅︎</span></label>
-              <label><input name="trigger" type="checkbox" value=81 onclick="typed(event)" /><span>⬇︎</span></label>
-              <label><input name="trigger" type="checkbox" value=79 onclick="typed(event)" /><span>➡︎</span></label>
+              <label><input name="trigger" type="checkbox" value=80 onclick="typed(event)" /><span>←</span></label>
+              <label><input name="trigger" type="checkbox" value=81 onclick="typed(event)" /><span>↓</span></label>
+              <label><input name="trigger" type="checkbox" value=79 onclick="typed(event)" /><span>→</span></label>
             </div>
           </div>
+
+          <!--
+          <div class="keybord-wrapper" id="Mouse">
+            <div class="keys">
+              <label><input name="trigger" type="checkbox" value=182 onclick="typed(event)" /><span
+                  class="mousebutton">L</span></label>
+              <label id="scroll"><input name="trigger" type="checkbox" value=205 onclick="typed(event)" /><span>↑</span></label>
+              <label><input name="trigger" type="checkbox" value=181 onclick="typed(event)" /><span
+                  class="mousebutton">R</span></label>
+            </div>
+            <div class="keys">
+              <label><input name="trigger" type="checkbox" value=73 onclick="typed(event)" /><span
+                  class="middlebutton">M</span></label>
+            </div>
+            <div class="keys">
+              <label><input name="trigger" type="checkbox" value=82 onclick="typed(event)" /><span>↓</span></label>
+            </div>
+            <br class="separator">
+            <div class="keys">
+              <label><input name="trigger" type="checkbox" value=82 onclick="typed(event)" /><span
+                  class="sidebutton">back</span></label>
+              <label><input name="trigger" type="checkbox" value=82 onclick="typed(event)" /><span
+                  class="sidebutton">forward</span></label>
+            </div>
+          </div>
+          -->
+
           <div class="keybord-wrapper" id="NumPad">
             <div class="keys">
               <label><input name="trigger" type="checkbox" value=83 onclick="typed(event)" /><span>Num</span></label>
@@ -241,7 +265,7 @@
   </div>
 </body>
 <footer>
-  <p>© 2023 falxla CyborgPadWriter_V0.3</p>
+  <p>© 2023 falxla CyborgPadWriter_V0.4</p>
 </footer>
 
 </html>
