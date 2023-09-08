@@ -129,17 +129,16 @@ let keepReading = true;
 let reader;
 let decoder = new TextDecoder()
 let buffer = "";
-
+const input = document.getElementById('send');
+const input2 = document.getElementById('connect');
 async function readUntilClosed() {
   while (port.readable && keepReading) {
     reader = port.readable.getReader();
     try {
-      const input = document.getElementById('send');
       input.disabled = false;
-      const input2 = document.getElementById('connect');
       input2.disabled = true;
 
-      while (true) {
+      while (keepReading) {
         const { value, done } = await reader.read();
         if (done) {
           // reader.cancel() has been called.
@@ -171,77 +170,6 @@ async function readUntilClosed() {
   }
 }
 
-function readfunction(messeage) {
-
-  switch (parseInt(messeage.replace('lyr:', ''))) {
-    case 0:
-      document.getElementById("layer0").checked = true;
-      Layer_num = 0;
-      break;
-    case 1:
-      document.getElementById("layer1").checked = true;
-      Layer_num = 1;
-      break;
-    case 2:
-      document.getElementById("layer2").checked = true;
-      Layer_num = 2;
-      break;
-    case 3:
-      document.getElementById("layer3").checked = true;
-      Layer_num = 3;
-      break;
-    case 4:
-      document.getElementById("layer4").checked = true;
-      Layer_num = 4;
-      break;
-    case 5:
-      document.getElementById("layer5").checked = true;
-      Layer_num = 5;
-      break;
-  }
-
-  switch (parseInt(messeage.replace('kys:', ''))) {
-    case 1:
-      document.getElementById("key1").checked = true;
-      key_num = 0;
-      break;
-    case 2:
-      document.getElementById("key2").checked = true;
-      key_num = 1;
-      break;
-    case 4:
-      document.getElementById("key3").checked = true;
-      key_num = 2;
-      break;
-    case 8:
-      document.getElementById("key4").checked = true;
-      key_num = 3;
-      break;
-    case 16:
-      document.getElementById("key5").checked = true;
-      key_num = 4;
-      break;
-    case 32:
-      document.getElementById("key6").checked = true;
-      key_num = 5;
-      break;
-  }
-
-  if (messeage.toString().indexOf("enc:+") !== -1) {
-    document.getElementById("keyR").checked = true;
-    key_num = 6;
-  }
-
-  if (messeage.toString().indexOf("enc:-") !== -1) {
-    document.getElementById("keyL").checked = true;
-    key_num = 7;
-  }
-
-
-  clearKeys();
-  console.log(messeage);
-}
-
 const wait = async (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 document.getElementById("send").addEventListener('click', async () => {
@@ -260,6 +188,13 @@ document.getElementById("send").addEventListener('click', async () => {
     await wait(50);
   }
   document.getElementById('pending').textContent = "";
+  document.getElementById('allocation').textContent = "";
+
+  if (pending.length != 0) {
+    keepReading = false;
+    input.disabled = true;
+    await port.close();
+  }
 });
 
 function toHex(v) {
@@ -333,6 +268,78 @@ function delete_last_line() {
     newtext += "\n";
   })
   document.getElementById('pending').textContent = newtext;
+  code2str();
+}
+
+function readfunction(messeage) {
+
+  switch (parseInt(messeage.replace('lyr:', ''))) {
+    case 0:
+      document.getElementById("layer0").checked = true;
+      Layer_num = 0;
+      break;
+    case 1:
+      document.getElementById("layer1").checked = true;
+      Layer_num = 1;
+      break;
+    case 2:
+      document.getElementById("layer2").checked = true;
+      Layer_num = 2;
+      break;
+    case 3:
+      document.getElementById("layer3").checked = true;
+      Layer_num = 3;
+      break;
+    case 4:
+      document.getElementById("layer4").checked = true;
+      Layer_num = 4;
+      break;
+    case 5:
+      document.getElementById("layer5").checked = true;
+      Layer_num = 5;
+      break;
+  }
+
+  switch (parseInt(messeage.replace('kys:', ''))) {
+    case 1:
+      document.getElementById("key1").checked = true;
+      key_num = 0;
+      break;
+    case 2:
+      document.getElementById("key2").checked = true;
+      key_num = 1;
+      break;
+    case 4:
+      document.getElementById("key3").checked = true;
+      key_num = 2;
+      break;
+    case 8:
+      document.getElementById("key4").checked = true;
+      key_num = 3;
+      break;
+    case 16:
+      document.getElementById("key5").checked = true;
+      key_num = 4;
+      break;
+    case 32:
+      document.getElementById("key6").checked = true;
+      key_num = 5;
+      break;
+  }
+
+  if (messeage.toString().indexOf("enc:+") !== -1) {
+    document.getElementById("keyR").checked = true;
+    key_num = 6;
+  }
+
+  if (messeage.toString().indexOf("enc:-") !== -1) {
+    document.getElementById("keyL").checked = true;
+    key_num = 7;
+  }
+
+
+  clearKeys();
+  console.log(messeage);
 }
 
 function code2str() {
@@ -344,7 +351,7 @@ function code2str() {
     if (line.length > 41) {
 
       if (line[4] < 6)
-        all.textContent += "Layer" + line[2] + " Key" + line[4] + " => ";
+        all.textContent += "Layer" + line[2] + " Key" + (parseInt(line[4]) + 1) + " => ";
       if (line[4] == 6)
         all.textContent += "Layer" + line[2] + " Key" + "R" + " => ";
       if (line[4] == 7)
@@ -530,19 +537,19 @@ function code2str() {
           break;
 
         case 84:
-          all.textContent += "/ ";
+          all.textContent += "Pad/ ";
           break;
 
         case 85:
-          all.textContent += "* ";
+          all.textContent += "Pad* ";
           break;
 
         case 86:
-          all.textContent += "- ";
+          all.textContent += "Pad- ";
           break;
 
         case 87:
-          all.textContent += "+ ";
+          all.textContent += "Pad+ ";
           break;
 
         case 88:

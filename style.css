@@ -7,12 +7,45 @@
 body {
   display: inline;
   background: #333;
+  flex-direction:column;
+  min-height: 100vh;
 }
 
 footer {
   text-align: center;
   background-color: #bec4d4;
   width: auto;
+}
+
+.tab_class {
+  width: calc(100%/10);
+  height: 30px;
+  background-color: darkgrey;
+  line-height: 30px;
+  font-size: 15px;
+  text-align: center;
+  display: block;
+  float: left;
+  order: -1;
+}
+
+input[name="tab_name"] {
+  display: none;
+}
+
+input:checked+.tab_class {
+  background-color: cadetblue;
+  color: aliceblue;
+  font-weight: bold;
+}
+
+.content_class {
+  display: none;
+  width: 100%;
+}
+
+input:checked+.tab_class+.content_class {
+  display: block;
 }
 
 #pending {
@@ -56,12 +89,12 @@ footer {
   margin-left: auto;
   margin-right: auto;
   padding-top: 25px;
-
+  width: min-content;
 }
 
 #download {
   height: 30px;
-  background-color: #3db6b0;
+  background-color: #b1b1ff;
 }
 
 #area1 {
@@ -214,6 +247,9 @@ footer {
 #first {
   display: flex;
   margin-left: 10px;
+  flex-wrap: wrap;
+  display: flex;
+  justify-content: flex-end;
 }
 
 #second {
