@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="style.css" />
   <script src="script.js" defer></script>
-  <title>Cyborg Writer</title>
+  <title>Cyborg Remapper</title>
 </head>
 
 <body>
@@ -18,25 +18,37 @@
         <div class="devices">
           <div class="keys">
             <label><input id="key1" name="Layerkey1" type="radio" value=1 onclick="setKeyNum(event)" checked /><span>1</span></label>
+            <div id="separator">
+              <br>
+            </div>
             <label><input id="key4" name="Layerkey1" type="radio" value=4 onclick="setKeyNum(event)" /><span>4</span></label>
           </div>
           <div class="keys">
             <label><input id="key2" name="Layerkey1" type="radio" value=2 onclick="setKeyNum(event)" /><span>2</span></label>
+            <div id="separator">
+              <br>
+            </div>
             <label><input id="key5" name="Layerkey1" type="radio" value=5 onclick="setKeyNum(event)" /><span>5</span></label>
           </div>
           <div class="keys">
             <label><input id="key3" name="Layerkey1" type="radio" value=3 onclick="setKeyNum(event)" /><span>3</span></label>
+            <div id="separator">
+              <br>
+            </div>
             <label><input id="key6" name="Layerkey1" type="radio" value=6 onclick="setKeyNum(event)" /><span>6</span></label>
           </div>
-          <div class="keys">
-            <label><input id="keyL" name="Layerkey1" type="radio" value=8 onclick="setKeyNum(event)" /><span>Lrot</span></label>
-            <label><input id="keyR" name="Layerkey1" type="radio" value=7 onclick="setKeyNum(event)" /><span>Rrot</span></label>
+          <div class="keys" id="knob">
+            <label><input id="keyL" name="Layerkey1" type="radio" value=8 onclick="setKeyNum(event)" /><span id="left">L</span></label>
+            <label><input id="keyR" name="Layerkey1" type="radio" value=7 onclick="setKeyNum(event)" /><span id="right">R</span></label>
           </div>
         </div>
       </div>
       <div id="area2">
-        <p class="headline">Pending
+        <p class="headline">Allocation
           <button onclick="delete_last_line()">delete line</button>
+        </p>
+        <textarea id="allocation" readonly></textarea>
+        <p class="headline">Data
         </p>
         <textarea id="pending" readonly></textarea>
       </div>
@@ -76,7 +88,6 @@
               <label><input name="trigger" type="checkbox" value=67 onclick="typed(event)" /><span id="fkeys">F10</span></label>
               <label><input name="trigger" type="checkbox" value=68 onclick="typed(event)" /><span id="fkeys">F11</span></label>
               <label><input name="trigger" type="checkbox" value=69 onclick="typed(event)" /><span id="fkeys">F12</span></label>
-              <label><input name="trigger" type="checkbox" value=70 onclick="typed(event)" /><span id="fkeys">PrtSc</span></label>
             </div>
             <div id="separator">
               <br />
@@ -163,8 +174,8 @@
           <div class="keybord-wrapper" id="Pad">
             <div class="keys">
               <label><input name="contrigger" type="checkbox" value=226 onclick="typed(event)" /><span>Mute</span></label>
-              <label><input name="contrigger" type="checkbox" value=233 onclick="typed(event)" /><span>Vol.Up</span></label>
               <label><input name="contrigger" type="checkbox" value=234 onclick="typed(event)" /><span>Vol.Dn</span></label>
+              <label><input name="contrigger" type="checkbox" value=233 onclick="typed(event)" /><span>Vol.Up</span></label>
             </div>
             <div class="keys">
               <label><input name="contrigger" type="checkbox" value=182 onclick="typed(event)" /><span>Prev</span></label>
@@ -175,12 +186,27 @@
               <br>
             </div>
             <div class="keys">
-              <label><input name="contrigger" type="checkbox" value=112 onclick="typed(event)" /><span>Blig.Dn</span></label>
-              <label><input name="contrigger" type="checkbox" value=111 onclick="typed(event)" /><span>Blig.Up</span></label>
+              <label><input name="contrigger" type="checkbox" value=112 onclick="typed(event)" /><span>Brig.Dn</span></label>
+              <label><input name="contrigger" type="checkbox" value=111 onclick="typed(event)" /><span>Brig.Up</span></label>
+            </div>
+            <div id="separator">
+              <br>
+            </div>
+            <div class="keys">
+              <label><input name="trigger" type="checkbox" value=0 onclick="typed(event)" /><span>Blank</span></label>
             </div>
           </div>
 
           <div class="keybord-wrapper" id="Pad">
+
+            <div class="keys">
+              <label><input name="trigger" type="checkbox" value=70 onclick="typed(event)" /><span id="fkeys">PrtSc</span></label>
+              <label><input name="trigger" type="checkbox" value=71 onclick="typed(event)" /><span id="fkeys">ScrLk</span></label>
+              <label><input name="trigger" type="checkbox" value=72 onclick="typed(event)" /><span id="fkeys">Pause</span></label>
+            </div>
+            <div id="separator">
+              <br>
+            </div>
             <div class="keys">
               <label><input name="trigger" type="checkbox" value=73 onclick="typed(event)" /><span>Insert</span></label>
               <label><input name="trigger" type="checkbox" value=74 onclick="typed(event)" /><span>Home</span></label>
@@ -265,7 +291,7 @@
   </div>
 </body>
 <footer>
-  <p>© 2023 falxla CyborgPadWriter_V0.4</p>
+  <p>© 2023 falxla CyborgPadWriter_V1.0</p>
 </footer>
 
 </html>

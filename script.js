@@ -58,15 +58,20 @@ function typed(e) {
   }
   send_data[6] = mod_value;
 
+  //cancel
+  if ((key_triggers.length + con_triggers.length) > 1) {
+    e.preventDefault();
+    return;
+  }
+
   let count = 0;
   for (let checked_data of key_triggers) {
-    if (count > 5)
+    if (count > 0)
       break;
-    send_data[count] = checked_data.value;
+    send_data[0] = checked_data.value;
     count++;
   }
 
-  count = 0;
   for (let checked_data of con_triggers) {
     if (count > 0)
       break;
@@ -76,8 +81,14 @@ function typed(e) {
   }
 
   create_senddata();
-  document.getElementById("pending").textContent += textdata;
+
+  if ((con_triggers.length + key_triggers.length + mod_triggers.length) > 0)
+    document.getElementById("pending").textContent += textdata;
+  else
+    delete_last_line();
+
   cleanup();
+  code2str();
 }
 
 let Layer_num = 0;
@@ -324,3 +335,264 @@ function delete_last_line() {
   document.getElementById('pending').textContent = newtext;
 }
 
+function code2str() {
+  var all = document.getElementById("allocation");
+  var lines = document.getElementById('pending').textContent.split('\n');
+
+  all.textContent = "";
+  for (let line of lines) {
+    if (line.length > 41) {
+
+      if (line[4] < 6)
+        all.textContent += "Layer" + line[2] + " Key" + line[4] + " => ";
+      if (line[4] == 6)
+        all.textContent += "Layer" + line[2] + " Key" + "R" + " => ";
+      if (line[4] == 7)
+        all.textContent += "Layer" + line[2] + " Key" + "L" + " => ";
+      var code = parseInt(line.slice(7, 11), 16);
+      var mod = parseInt(line.slice(37, 41), 16);
+      var con = parseInt(line.slice(12, 17), 16);
+
+      if (mod & 0b00000001)
+        all.textContent += "LCtrl ";
+      if (mod & 0b00000010)
+        all.textContent += "LShift ";
+      if (mod & 0b00000100)
+        all.textContent += "LAlt/Opt ";
+      if (mod & 0b00001000)
+        all.textContent += "LGUI ";
+      if (mod & 0b00010000)
+        all.textContent += "RCtrl ";
+      if (mod & 0b00100000)
+        all.textContent += "RShift ";
+      if (mod & 0b01000000)
+        all.textContent += "RAlt/Opt ";
+      if (mod & 0b10000000)
+        all.textContent += "RGUI ";
+
+      if (4 <= code && code <= 29)
+        all.textContent += String.fromCharCode(code + 61);
+
+      if (30 <= code && code <= 38)
+        all.textContent += String.fromCharCode(code + 19);
+
+      if (code == 39)
+        all.textContent += 0;
+
+      switch (code) {
+        case 0:
+          if (!mod)
+            all.textContent += "Blank ";
+          break;
+
+        case 40:
+          all.textContent += "Enter ";
+          break;
+
+        case 41:
+          all.textContent += "Esc ";
+          break;
+
+        case 42:
+          all.textContent += "Backspace ";
+          break;
+
+        case 43:
+          all.textContent += "Tab ";
+          break;
+
+        case 44:
+          all.textContent += "Space ";
+          break;
+
+        case 45:
+          all.textContent += "- ";
+          break;
+
+        case 46:
+          all.textContent += "^ ";
+          break;
+
+        case 47:
+          all.textContent += "@ ";
+          break;
+
+        case 48:
+          all.textContent += "[ ";
+          break;
+
+        case 135:
+          all.textContent += "_ ";
+          break;
+
+        case 136:
+          all.textContent += "ローマ字 ";
+          break;
+
+        case 137:
+          all.textContent += "¥ ";
+          break;
+
+        case 138:
+          all.textContent += "変換 ";
+          break;
+
+        case 139:
+          all.textContent += "無変換 ";
+          break;
+
+        case 50:
+          all.textContent += "] ";
+          break;
+
+        case 51:
+          all.textContent += "; ";
+          break;
+
+        case 52:
+          all.textContent += ": ";
+          break;
+
+        case 53:
+          all.textContent += "半角/全角 ";
+          break;
+
+        case 54:
+          all.textContent += ", ";
+          break;
+
+        case 55:
+          all.textContent += ". ";
+          break;
+
+        case 56:
+          all.textContent += "/ ";
+          break;
+
+        case 57:
+          all.textContent += "CapsLock ";
+          break;
+
+        case 70:
+          all.textContent += "PrintScreen ";
+          break;
+
+        case 71:
+          all.textContent += "ScrollLock ";
+          break;
+
+        case 72:
+          all.textContent += "Pause ";
+          break;
+
+        case 73:
+          all.textContent += "Insert ";
+          break;
+
+        case 74:
+          all.textContent += "Home ";
+          break;
+
+        case 75:
+          all.textContent += "PageUp ";
+          break;
+
+        case 76:
+          all.textContent += "Delete ";
+          break;
+
+        case 77:
+          all.textContent += "End ";
+          break;
+
+        case 78:
+          all.textContent += "PageDown ";
+          break;
+
+        case 79:
+          all.textContent += "RightArrow ";
+          break;
+
+        case 80:
+          all.textContent += "LeftArrow ";
+          break;
+
+        case 81:
+          all.textContent += "DownArrow ";
+          break;
+
+        case 82:
+          all.textContent += "UpArrow ";
+          break;
+
+        case 83:
+          all.textContent += "NumLock ";
+          break;
+
+        case 84:
+          all.textContent += "/ ";
+          break;
+
+        case 85:
+          all.textContent += "* ";
+          break;
+
+        case 86:
+          all.textContent += "- ";
+          break;
+
+        case 87:
+          all.textContent += "+ ";
+          break;
+
+        case 88:
+          all.textContent += "PadEnter ";
+          break;
+
+      }
+
+      if (58 <= code && code <= 69)
+        all.textContent += "F" + (code - 57);
+
+      if (89 <= code && code <= 97)
+        all.textContent += "Pad" + String.fromCharCode(code - 40);
+
+      if (code == 98)
+        all.textContent += "Pad" + 0;
+
+      if (code == 99)
+        all.textContent += "Pad.";
+
+      if (code == 255) {
+        switch (con) {
+          case 111:
+            all.textContent += "BrightnessUp ";
+            break;
+          case 112:
+            all.textContent += "BrightnessDown ";
+            break;
+          case 181:
+            all.textContent += "Next ";
+            break;
+          case 182:
+            all.textContent += "Prev ";
+            break;
+          case 205:
+            all.textContent += "Play ";
+            break;
+          case 233:
+            all.textContent += "VolumeUp ";
+            break;
+          case 234:
+            all.textContent += "VolumeDown ";
+            break;
+          case 226:
+            all.textContent += "Mute ";
+            break;
+        }
+      }
+
+    }
+    all.textContent += "\n";
+  }
+}

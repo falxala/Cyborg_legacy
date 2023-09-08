@@ -17,7 +17,18 @@ footer {
 
 #pending {
   width: 100%;
-  height: 100%;
+  height: 20%;
+  background-color: #00011e;
+  color: #0eefff;
+  overflow-wrap: normal;
+  padding-left: 10px;
+  resize: none;
+  font-size: 10px;
+}
+
+#allocation {
+  width: 100%;
+  height: 70%;
   background-color: #00011e;
   color: #0eefff;
   overflow-wrap: normal;
@@ -45,10 +56,10 @@ footer {
   margin-left: auto;
   margin-right: auto;
   padding-top: 25px;
-  
+
 }
 
-#download{
+#download {
   height: 30px;
   background-color: #3db6b0;
 }
@@ -142,6 +153,27 @@ footer {
   font-weight: bold;
 }
 
+#knob {
+  display: flex;
+  margin-top: 50px;
+}
+
+.keys label #left {
+  user-select: none;
+  width: 30px;
+  height: 60px;
+  border-radius: 30px 0 0 30px;
+  background: #2e3237;
+}
+
+.keys label #right {
+  user-select: none;
+  width: 30px;
+  height: 60px;
+  border-radius: 0 30px 30px 0;
+  background: #2e3237;
+}
+
 #write #connect {
   width: 30%;
 }
@@ -228,7 +260,7 @@ footer {
   width: auto;
 }
 
-#Mouse #scroll{
+#Mouse #scroll {
   height: 0;
 }
 
