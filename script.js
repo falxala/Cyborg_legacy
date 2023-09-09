@@ -2,15 +2,15 @@ const typedKey = document.querySelector(".typedKey");
 
 window.onload = function () {
   let agent = window.navigator.userAgent.toLowerCase();
-  console.log(agent);
-  if (agent.indexOf("edge") > -1)
-    console.log("edge");
-  else if (agent.indexOf("chrome") > -1)
-    console.log("chrome");
-  else if (agent.indexOf("opera") > -1)
-    console.log("opera");
-  else
+
+  try {
+    navigator.serial.getPorts().then((ports) => {
+      // ページが読み込まれた時、`ports` を用いて利用可能なポートのリストを初期化します。
+      console.log(ports);
+    });
+  } catch {
     alert("not support browser");
+  }
 
 };
 
