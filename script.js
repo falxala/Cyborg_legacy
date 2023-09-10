@@ -1,8 +1,6 @@
 const typedKey = document.querySelector(".typedKey");
 
 window.onload = function () {
-  let agent = window.navigator.userAgent.toLowerCase();
-
   try {
     navigator.serial.getPorts().then((ports) => {
       // ページが読み込まれた時、`ports` を用いて利用可能なポートのリストを初期化します。
@@ -11,7 +9,6 @@ window.onload = function () {
   } catch {
     alert("not support browser");
   }
-
 };
 
 function clearKeys(e) {
